@@ -101,7 +101,12 @@ export class CrewManager {
 	activateSession(sessionId: string, isIdle: () => boolean, pi: ExtensionAPI): void {
 		this.currentSessionId = sessionId;
 		this.currentIsIdle = isIdle;
-		this.flushPending(pi);
+		// Delay flush to next macrotask. session_switch fires before pi-core
+		// calls _reconnectToAgent(), so synchronous delivery would emit agent
+		// events while the session listener is disconnected, losing JSONL persistence.
+		if (this.pendingMessages.some(e => e.ownerSessionId === sessionId)) {
+			setTimeout(() => this.flushPending(pi), 0);
+		}
 	}
 
 	private flushPending(pi: ExtensionAPI): void {
