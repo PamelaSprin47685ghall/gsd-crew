@@ -8,7 +8,7 @@
 
 ## Reference
 
-- Detailed runtime architecture reference: `/Users/melihmucuk/github/pi-crew/docs/architecture.md`
+- Detailed runtime architecture reference: `./docs/architecture.md`
 
 ## Rules / Guardrails
 
