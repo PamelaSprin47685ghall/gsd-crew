@@ -275,7 +275,36 @@ Frontmatter fields currently recognized by the runtime:
 
 The Markdown body becomes appended system prompt content for the spawned subagent session.
 
-### 6.3 Validation and fallback behavior
+### 6.3 JSON override sources and precedence
+
+File:
+
+- `extension/agent-discovery.ts`
+
+After `.md` discovery, the runtime loads optional per-agent override config from two JSON files:
+
+- global: `~/.pi/agent/pi-crew.json`
+- project: `<cwd>/.pi/pi-crew.json`
+
+Only these fields are overridable:
+
+- `model`
+- `thinking`
+- `tools`
+- `skills`
+- `compaction`
+- `interactive`
+
+`name` and `description` are never overridable.
+
+Merge behavior:
+
+- global config is loaded first
+- project config is loaded second
+- project overrides global for the same subagent and field
+- if both files define the same subagent, unspecified fields from global remain unless project overrides them
+
+### 6.4 Validation and fallback behavior
 
 Key behaviors implemented in discovery and bootstrap:
 
@@ -285,20 +314,31 @@ Key behaviors implemented in discovery and bootstrap:
 - `model` must use `provider/model-id` format to be considered valid
 - invalid model format is ignored for model resolution with a warning
 - invalid `thinking` values are ignored with a warning
-- invalid `tools` or `skills` field formats produce a warning and are treated as empty lists
+- invalid `tools` or `skills` field formats produce a warning and are treated as empty lists in frontmatter
 - unknown tools are filtered out with a warning
 - unknown skills are not part of discovery validation; when `skills` is present, bootstrap filters against the loaded skill set, omits unknown names, and writes a `console.warn`
+- non-boolean `compaction` or `interactive` values in frontmatter are ignored without a warning
+
+Override-specific validation behavior:
+
+- override entry value must be a JSON object
+- unknown override fields produce warnings
+- non-overridable fields (`name`, `description`) produce warnings
+- invalid field types in overrides produce warnings and are ignored
+- invalid `model`/`thinking` values in overrides produce warnings and are ignored
+- invalid `tools`/`skills` formats in overrides produce warnings and are ignored
+- unknown tool names in override `tools` produce warnings; valid names in the same list are still applied
+- override entries for undiscovered subagent names produce warnings and are ignored
 
 Important semantic distinction:
 
 - omitted `tools` means “use the full supported tool allowlist”
 - omitted `skills` means “do not install a `skillsOverride`, so all skills from the base resource loader remain available”
 - explicit empty `tools` or `skills` means “grant none”
-- non-boolean `compaction` or `interactive` values are ignored without a warning
 
 That distinction matters for both end users and coding agents authoring subagent definitions.
 
-### 6.4 Supported tool set for spawned subagents
+### 6.5 Supported tool set for spawned subagents
 
 File:
 

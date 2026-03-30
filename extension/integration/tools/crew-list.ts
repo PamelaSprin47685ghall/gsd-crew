@@ -13,12 +13,12 @@ export function registerCrewListTool({
 		name: "crew_list",
 		label: "List Crew",
 		description:
-			"List available subagent definitions (from ~/.pi/agent/agents/*.md) and currently running subagents with their status.",
+			"List available subagent definitions (from ~/.pi/agent/agents/*.md, with optional global/project pi-crew.json overrides) and currently running subagents with their status.",
 		parameters: Type.Object({}),
 		promptSnippet: "List subagent definitions and active subagents",
 
 		async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
-			const { agents, warnings } = discoverAgents();
+			const { agents, warnings } = discoverAgents(ctx.cwd);
 			notifyDiscoveryWarnings(ctx, warnings);
 			const callerSessionId = ctx.sessionManager.getSessionId();
 			const running = crewManager.getActiveSummariesForOwner(callerSessionId);

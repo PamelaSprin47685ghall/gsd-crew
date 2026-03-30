@@ -35,7 +35,7 @@ export function registerCrewSpawnTool({
 		],
 
 		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
-			const { agents, warnings } = discoverAgents();
+			const { agents, warnings } = discoverAgents(ctx.cwd);
 			notifyDiscoveryWarnings(ctx, warnings);
 			const subagent = agents.find(
 				(candidate) => candidate.name === params.subagent,

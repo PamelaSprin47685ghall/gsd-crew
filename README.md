@@ -133,6 +133,45 @@ The subagent will follow these instructions when executing tasks.
 | `compaction`  | no       | Enable context compaction. Defaults to `true`.                                                                       |
 | `interactive` | no       | Keep session alive after response for multi-turn conversations. Defaults to `false`.                                 |
 
+## Subagent Overrides via JSON
+
+You can override selected frontmatter fields without editing the `.md` definition files.
+
+Config locations:
+
+- Global: `~/.pi/agent/pi-crew.json`
+- Project: `<cwd>/.pi/pi-crew.json`
+
+Project config overrides global config. Only these fields are overridable:
+
+- `model`
+- `thinking`
+- `tools`
+- `skills`
+- `compaction`
+- `interactive`
+
+`name` and `description` cannot be overridden.
+
+Example:
+
+```json
+{
+  "agents": {
+    "scout": {
+      "model": "anthropic/claude-haiku-4-5",
+      "tools": ["read", "bash"],
+      "interactive": false
+    },
+    "planner": {
+      "thinking": "high"
+    }
+  }
+}
+```
+
+Override values replace the matching frontmatter fields for the named subagent after discovery. Unknown subagent names and invalid override values are ignored with warnings in `crew_list` output.
+
 ## Status Widget
 
 When the current session owns active subagents, a live status widget appears in the TUI for that session, showing each subagent's ID, model, turn count, and context token usage.
