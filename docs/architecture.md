@@ -4,8 +4,7 @@ This document explains the technical architecture of `@melihmucuk/pi-crew` for b
 
 It describes runtime behavior, integration points, ownership rules, delivery semantics, and implementation boundaries. It intentionally avoids code snippets. Source files are referenced instead, because exact code can change while the behavioral contract should remain stable.
 
-Repository root for all references in this document:
-`/Users/melihmucuk/github/pi-crew`
+All paths in this document are relative to the repository root.
 
 ## 1. What the project is
 
@@ -23,9 +22,9 @@ At a high level, the system adds:
 
 Primary entry points:
 
-- `/Users/melihmucuk/github/pi-crew/package.json`
-- `/Users/melihmucuk/github/pi-crew/extension/index.ts`
-- `/Users/melihmucuk/github/pi-crew/README.md`
+- `package.json`
+- `extension/index.ts`
+- `README.md`
 
 ## 2. Architectural goals
 
@@ -48,7 +47,7 @@ The extension is built around a few explicit goals:
 
 Project-level guardrails that define these contracts live in:
 
-- `/Users/melihmucuk/github/pi-crew/AGENTS.md`
+- `AGENTS.md`
 
 ## 3. Package layout and extension surface
 
@@ -58,7 +57,7 @@ Project-level guardrails that define these contracts live in:
 
 Registration metadata lives in:
 
-- `/Users/melihmucuk/github/pi-crew/package.json`
+- `package.json`
 
 Important package-level behaviors:
 
@@ -75,11 +74,11 @@ This means installation has two layers:
 
 Main implementation areas:
 
-- `/Users/melihmucuk/github/pi-crew/extension/` - runtime extension logic
-- `/Users/melihmucuk/github/pi-crew/extension/runtime/` - in-memory state and delivery coordination
-- `/Users/melihmucuk/github/pi-crew/extension/integration/` - pi tool, command, and renderer registration
-- `/Users/melihmucuk/github/pi-crew/agents/` - bundled subagent definitions
-- `/Users/melihmucuk/github/pi-crew/prompts/` - bundled prompt templates
+- `extension/` - runtime extension logic
+- `extension/runtime/` - in-memory state and delivery coordination
+- `extension/integration/` - pi tool, command, and renderer registration
+- `agents/` - bundled subagent definitions
+- `prompts/` - bundled prompt templates
 
 ## 4. Core runtime components
 
@@ -87,7 +86,7 @@ Main implementation areas:
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/index.ts`
+- `extension/index.ts`
 
 Responsibilities:
 
@@ -111,7 +110,7 @@ This is the bridge between pi core events and `pi-crew` runtime behavior.
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/crew-manager.ts`
+- `extension/crew-manager.ts`
 
 `CrewManager` is the main orchestration service.
 
@@ -132,8 +131,8 @@ In practice, `CrewManager` is the coordination layer above the registry and deli
 
 Files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/runtime/subagent-registry.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/runtime/subagent-state.ts`
+- `extension/runtime/subagent-registry.ts`
+- `extension/runtime/subagent-state.ts`
 
 Responsibilities:
 
@@ -154,7 +153,7 @@ However, per project rules, subagent session files themselves are intentionally 
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/runtime/delivery-coordinator.ts`
+- `extension/runtime/delivery-coordinator.ts`
 
 This component solves one of the most important architecture problems in the extension: **how to deliver background results to the correct session at the correct time**.
 
@@ -174,12 +173,12 @@ This separation keeps delivery logic independent from spawning logic.
 
 Files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/register-tools.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-list.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-spawn.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-abort.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-respond.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-done.ts`
+- `extension/integration/register-tools.ts`
+- `extension/integration/tools/crew-list.ts`
+- `extension/integration/tools/crew-spawn.ts`
+- `extension/integration/tools/crew-abort.ts`
+- `extension/integration/tools/crew-respond.ts`
+- `extension/integration/tools/crew-done.ts`
 
 The extension registers five tools:
 
@@ -203,7 +202,7 @@ Behavioral contracts:
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/register-command.ts`
+- `extension/integration/register-command.ts`
 
 The extension also registers the `/pi-crew:abort` command.
 
@@ -217,8 +216,8 @@ It exists as an emergency escape hatch. This is a deliberate operational tool, n
 
 Files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/register-renderers.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/subagent-messages.ts`
+- `extension/integration/register-renderers.ts`
+- `extension/subagent-messages.ts`
 
 The extension defines two custom message types:
 
@@ -231,7 +230,7 @@ These render in the TUI with custom formatting so asynchronous subagent output i
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/status-widget.ts`
+- `extension/status-widget.ts`
 
 When the current session owns active subagents, a live widget shows:
 
@@ -249,7 +248,7 @@ This widget is session-scoped. It only shows subagents owned by the currently ac
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/agent-discovery.ts`
+- `extension/agent-discovery.ts`
 
 Subagent definitions are discovered from:
 
@@ -303,7 +302,7 @@ That distinction matters for both end users and coding agents authoring subagent
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/tool-registry.ts`
+- `extension/tool-registry.ts`
 
 The current built-in tool allowlist for spawned subagents is:
 
@@ -326,7 +325,7 @@ Important limitation:
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/extension/bootstrap-session.ts`
+- `extension/bootstrap-session.ts`
 
 When `crew_spawn` is executed, the runtime does not clone the current conversation directly. It creates a new agent session with explicit configuration.
 
@@ -350,7 +349,7 @@ The current caller session file is passed when one exists. This is the supported
 
 Architectural rationale is documented in:
 
-- `/Users/melihmucuk/github/pi-crew/AGENTS.md`
+- `AGENTS.md`
 
 ### 7.3 Preventing recursive orchestration
 
@@ -392,9 +391,9 @@ This setting is applied per spawned session and does not reuse the caller sessio
 
 Relevant files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-spawn.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/crew-manager.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/bootstrap-session.ts`
+- `extension/integration/tools/crew-spawn.ts`
+- `extension/crew-manager.ts`
+- `extension/bootstrap-session.ts`
 
 Behavior sequence:
 
@@ -453,8 +452,8 @@ Ownership identity is based on the current session ID, not the session file path
 
 Relevant files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/runtime/delivery-coordinator.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/index.ts`
+- `extension/runtime/delivery-coordinator.ts`
+- `extension/index.ts`
 
 Delivery branches:
 
@@ -500,8 +499,8 @@ This is why queued results are flushed asynchronously instead of synchronously d
 
 Files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/subagent-messages.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/runtime/delivery-coordinator.ts`
+- `extension/subagent-messages.ts`
+- `extension/runtime/delivery-coordinator.ts`
 
 When a result is delivered and other subagents from the same owner are still in `running` state, the extension may send two messages:
 
@@ -543,8 +542,8 @@ Meaning of `waiting`:
 
 Relevant files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-respond.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/crew-manager.ts`
+- `extension/integration/tools/crew-respond.ts`
+- `extension/crew-manager.ts`
 
 Behavior:
 
@@ -561,8 +560,8 @@ This is deliberately fire-and-forget. The response comes later as another `crew-
 
 Relevant files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-done.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/crew-manager.ts`
+- `extension/integration/tools/crew-done.ts`
+- `extension/crew-manager.ts`
 
 Behavior:
 
@@ -589,8 +588,8 @@ Each path should report the real reason.
 
 Relevant files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/tools/crew-abort.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/crew-manager.ts`
+- `extension/integration/tools/crew-abort.ts`
+- `extension/crew-manager.ts`
 
 `crew_abort` supports exactly one mode per call:
 
@@ -610,7 +609,7 @@ The result separates:
 
 Relevant file:
 
-- `/Users/melihmucuk/github/pi-crew/extension/integration/register-command.ts`
+- `extension/integration/register-command.ts`
 
 `/pi-crew:abort` can target any active abortable subagent, regardless of owner. This is not a bug. It is an explicit operational decision.
 
@@ -618,7 +617,7 @@ Relevant file:
 
 Relevant file:
 
-- `/Users/melihmucuk/github/pi-crew/extension/index.ts`
+- `extension/index.ts`
 
 On `session_shutdown`, the extension:
 
@@ -663,7 +662,7 @@ This is the only major exception to normal ownership isolation.
 
 Relevant file:
 
-- `/Users/melihmucuk/github/pi-crew/extension/subagent-messages.ts`
+- `extension/subagent-messages.ts`
 
 Subagent outcome messaging is normalized into one common format.
 
@@ -694,11 +693,11 @@ Current `crew-result` deliveries use `waiting`, `done`, `error`, or `aborted`. `
 
 Files:
 
-- `/Users/melihmucuk/github/pi-crew/agents/scout.md`
-- `/Users/melihmucuk/github/pi-crew/agents/planner.md`
-- `/Users/melihmucuk/github/pi-crew/agents/worker.md`
-- `/Users/melihmucuk/github/pi-crew/agents/code-reviewer.md`
-- `/Users/melihmucuk/github/pi-crew/agents/quality-reviewer.md`
+- `agents/scout.md`
+- `agents/planner.md`
+- `agents/worker.md`
+- `agents/code-reviewer.md`
+- `agents/quality-reviewer.md`
 
 These are opinionated subagent definitions for common workflows.
 
@@ -716,7 +715,7 @@ Architecturally, these files are not special-cased by the runtime. They go throu
 
 File:
 
-- `/Users/melihmucuk/github/pi-crew/prompts/pi-crew:review.md`
+- `prompts/pi-crew:review.md`
 
 This prompt template is a good example of how `pi-crew` is meant to be consumed by higher-level orchestration prompts.
 
@@ -738,8 +737,8 @@ This separation is important:
 
 Relevant files:
 
-- `/Users/melihmucuk/github/pi-crew/extension/agent-discovery.ts`
-- `/Users/melihmucuk/github/pi-crew/extension/integration/register-tools.ts`
+- `extension/agent-discovery.ts`
+- `extension/integration/register-tools.ts`
 
 Invalid or partially invalid subagent definition files do not crash the extension.
 
@@ -749,7 +748,7 @@ Instead:
 - `crew_list` includes those warnings in its text output
 - `crew_list` and `crew_spawn` both trigger one-time UI notifications when a UI is available
 
-This section covers discovery-time warnings only. Unknown skill names are warned later during bootstrap via `console.warn` in `/Users/melihmucuk/github/pi-crew/extension/bootstrap-session.ts`.
+This section covers discovery-time warnings only. Unknown skill names are warned later during bootstrap via `console.warn` in `extension/bootstrap-session.ts`.
 
 This keeps misconfigured subagents visible without breaking healthy ones.
 
@@ -806,31 +805,31 @@ These rules are the extension’s real architecture. File names may move, but th
 
 If you need to understand or change behavior, start in this order:
 
-1. `/Users/melihmucuk/github/pi-crew/README.md`
+1. `README.md`
    Public product surface and user contract.
 
-2. `/Users/melihmucuk/github/pi-crew/AGENTS.md`
+2. `AGENTS.md`
    Non-obvious architecture guardrails that must not regress.
 
-3. `/Users/melihmucuk/github/pi-crew/extension/index.ts`
+3. `extension/index.ts`
    Extension bootstrap and session event wiring.
 
-4. `/Users/melihmucuk/github/pi-crew/extension/crew-manager.ts`
+4. `extension/crew-manager.ts`
    Main orchestration and state transitions.
 
-5. `/Users/melihmucuk/github/pi-crew/extension/runtime/delivery-coordinator.ts`
+5. `extension/runtime/delivery-coordinator.ts`
    Owner routing, queueing, and turn-trigger behavior.
 
-6. `/Users/melihmucuk/github/pi-crew/extension/bootstrap-session.ts`
+6. `extension/bootstrap-session.ts`
    Session construction, model/tool/skill resolution, and extension filtering.
 
-7. `/Users/melihmucuk/github/pi-crew/extension/agent-discovery.ts`
+7. `extension/agent-discovery.ts`
    Subagent definition semantics and validation rules.
 
-8. `/Users/melihmucuk/github/pi-crew/extension/integration/`
+8. `extension/integration/`
    pi-facing tools, command, and renderers.
 
-9. `/Users/melihmucuk/github/pi-crew/agents/` and `/Users/melihmucuk/github/pi-crew/prompts/`
+9. `agents/` and `prompts/`
    Real workflow examples built on top of the runtime.
 
 ## 19. Verification
@@ -842,6 +841,6 @@ For implementation changes that affect runtime behavior, the project-level verif
 
 Source:
 
-- `/Users/melihmucuk/github/pi-crew/AGENTS.md`
+- `AGENTS.md`
 
 For documentation-only changes, these commands are usually unnecessary unless the change is coupled with code edits.

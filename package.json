@@ -6,7 +6,8 @@
   "files": [
     "dist/",
     "agents/",
-    "prompts/"
+    "prompts/",
+    "docs/architecture.md"
   ],
   "author": "Melih Mucuk",
   "license": "MIT",
@@ -27,7 +28,8 @@
     ]
   },
   "scripts": {
-    "build": "tsc",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
