@@ -6,7 +6,7 @@ import {
 	SessionManager,
 	SettingsManager,
 } from "@mariozechner/pi-coding-agent";
-import type { AgentConfig } from "./agents.js";
+import type { AgentConfig } from "./agent-discovery.js";
 import { createSupportedTools, SUPPORTED_TOOL_NAMES } from "./tool-registry.js";
 
 function resolveTools(agentConfig: AgentConfig, cwd: string) {

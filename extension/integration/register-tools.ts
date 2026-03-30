@@ -2,8 +2,8 @@ import type {
 	ExtensionAPI,
 	ExtensionContext,
 } from "@mariozechner/pi-coding-agent";
-import { type AgentDiscoveryWarning } from "../agents.js";
-import type { CrewManager } from "../runner.js";
+import { type AgentDiscoveryWarning } from "../agent-discovery.js";
+import type { CrewManager } from "../crew-manager.js";
 import { registerCrewAbortTool } from "./tools/crew-abort.js";
 import { registerCrewDoneTool } from "./tools/crew-done.js";
 import { registerCrewListTool } from "./tools/crew-list.js";

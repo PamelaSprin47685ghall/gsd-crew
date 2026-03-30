@@ -5,8 +5,8 @@ import {
 	toolError,
 	toolSuccess,
 	truncatePreview,
-} from "../ui-helpers.js";
-import type { CrewToolDeps } from "./shared.js";
+} from "../tool-presentation.js";
+import type { CrewToolDeps } from "./tool-deps.js";
 
 export function registerCrewRespondTool({ pi, crewManager }: CrewToolDeps): void {
 	pi.registerTool({

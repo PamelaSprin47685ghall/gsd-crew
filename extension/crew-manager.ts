@@ -1,20 +1,20 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
 import type { AssistantMessage } from "@mariozechner/pi-ai";
 import type { AgentSession, ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-import type { AgentConfig } from "./agents.js";
-import { bootstrapSession } from "./session-factory.js";
-import { DeliveryCoordinator } from "./runner/delivery-coordinator.js";
-import { SubagentRegistry } from "./runner/subagent-registry.js";
+import type { AgentConfig } from "./agent-discovery.js";
+import { bootstrapSession } from "./bootstrap-session.js";
+import { DeliveryCoordinator } from "./runtime/delivery-coordinator.js";
+import { SubagentRegistry } from "./runtime/subagent-registry.js";
 import {
 	type AbortableAgentSummary,
 	type ActiveAgentSummary,
 	type SubagentState,
 	isAbortableStatus,
 	isAborted,
-} from "./runner/state.js";
-import type { SubagentStatus } from "./steering.js";
+} from "./runtime/subagent-state.js";
+import type { SubagentStatus } from "./subagent-messages.js";
 
-export type { AbortableAgentSummary, ActiveAgentSummary } from "./runner/state.js";
+export type { AbortableAgentSummary, ActiveAgentSummary } from "./runtime/subagent-state.js";
 
 export interface AbortOwnedResult {
 	abortedIds: string[];

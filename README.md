@@ -17,7 +17,7 @@ pi-crew adds five tools, one command, and one bundled prompt template to your pi
 
 ### `crew_list`
 
-Lists available subagent definitions and currently running subagents.
+Lists available subagent definitions and active subagents owned by the current session.
 
 ### `crew_spawn`
 
@@ -47,7 +47,7 @@ Tool-triggered aborts are reported back as steering messages with the reason `Ab
 
 ### `crew_respond`
 
-Sends a follow-up message to an interactive subagent that is waiting for a response. Interactive subagents stay alive after their initial response, allowing multi-turn conversations.
+Sends a follow-up message to an interactive subagent owned by the current session that is waiting for a response. Interactive subagents stay alive after their initial response, allowing multi-turn conversations.
 
 ```
 "respond to planner-a1b2 with: yes, use the existing auth middleware"
@@ -55,7 +55,7 @@ Sends a follow-up message to an interactive subagent that is waiting for a respo
 
 ### `crew_done`
 
-Closes an interactive subagent session when you no longer need it. This disposes the session and frees memory.
+Closes an interactive subagent session owned by the current session when you no longer need it. This disposes the session and frees memory.
 
 ```
 "close planner-a1b2, the plan looks good"
@@ -131,7 +131,7 @@ The subagent will follow these instructions when executing tasks.
 
 ## Status Widget
 
-When subagents are running, a live status widget appears in the TUI for the current owner session, showing each subagent's ID, model, turn count, and context token usage.
+When the current session owns active subagents, a live status widget appears in the TUI for that session, showing each subagent's ID, model, turn count, and context token usage.
 
 ```
 ⠹ scout-a1b2 (claude-haiku-4-5) · turn 3 · 12.5k ctx

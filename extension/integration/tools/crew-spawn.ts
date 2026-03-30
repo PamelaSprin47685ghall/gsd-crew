@@ -1,13 +1,13 @@
 import { Type } from "@sinclair/typebox";
-import { discoverAgents } from "../../agents.js";
+import { discoverAgents } from "../../agent-discovery.js";
 import {
 	renderCrewCall,
 	renderCrewResult,
 	toolError,
 	toolSuccess,
 	truncatePreview,
-} from "../ui-helpers.js";
-import type { CrewToolDeps } from "./shared.js";
+} from "../tool-presentation.js";
+import type { CrewToolDeps } from "./tool-deps.js";
 
 export function registerCrewSpawnTool({
 	pi,

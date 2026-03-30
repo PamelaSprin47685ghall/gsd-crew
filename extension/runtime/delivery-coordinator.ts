@@ -3,7 +3,7 @@ import {
 	type SteeringPayload,
 	sendRemainingNote,
 	sendSteeringMessage,
-} from "../steering.js";
+} from "../subagent-messages.js";
 
 interface PendingMessage {
 	ownerSessionId: string;

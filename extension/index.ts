@@ -1,9 +1,9 @@
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { CrewManager } from "./runner.js";
-import { registerCrewSurface } from "./surface.js";
-import { updateWidget } from "./widget.js";
+import { CrewManager } from "./crew-manager.js";
+import { registerCrewIntegration } from "./integration.js";
+import { updateWidget } from "./status-widget.js";
 
 const extensionDir = dirname(fileURLToPath(import.meta.url));
 
@@ -35,5 +35,5 @@ export default function (pi: ExtensionAPI) {
 		crewManager.abortForOwner(ctx.sessionManager.getSessionId(), pi);
 	});
 
-	registerCrewSurface(pi, crewManager);
+	registerCrewIntegration(pi, crewManager);
 }

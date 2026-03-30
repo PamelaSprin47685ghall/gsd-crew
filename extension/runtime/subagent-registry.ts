@@ -1,11 +1,11 @@
-import type { AgentConfig } from "../agents.js";
-import type { AbortableAgentSummary, ActiveAgentSummary, SubagentState } from "./state.js";
+import type { AgentConfig } from "../agent-discovery.js";
+import type { AbortableAgentSummary, ActiveAgentSummary, SubagentState } from "./subagent-state.js";
 import {
 	buildAbortableAgentSummary,
 	buildActiveAgentSummary,
 	generateId,
 	isAbortableStatus,
-} from "./state.js";
+} from "./subagent-state.js";
 
 export class SubagentRegistry {
 	private activeAgents = new Map<string, SubagentState>();

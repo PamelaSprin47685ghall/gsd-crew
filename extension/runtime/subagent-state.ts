@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import type { AgentSession } from "@mariozechner/pi-coding-agent";
-import type { AgentConfig } from "../agents.js";
-import type { SubagentStatus } from "../steering.js";
+import type { AgentConfig } from "../agent-discovery.js";
+import type { SubagentStatus } from "../subagent-messages.js";
 
 export interface SubagentState {
 	id: string;

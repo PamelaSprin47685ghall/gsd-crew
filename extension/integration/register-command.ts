@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import type { CrewManager } from "../runner.js";
+import type { CrewManager } from "../crew-manager.js";
 
 export function registerCrewCommand(pi: ExtensionAPI, crewManager: CrewManager): void {
 	pi.registerCommand("pi-crew:abort", {

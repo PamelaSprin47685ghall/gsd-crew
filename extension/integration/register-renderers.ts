@@ -7,7 +7,7 @@ import {
 	type CrewResultMessageDetails,
 	STATUS_ICON,
 	getCrewResultTitle,
-} from "../steering.js";
+} from "../subagent-messages.js";
 
 function getStatusColor(status: CrewResultMessageDetails["status"]): "success" | "error" | "warning" | "muted" {
 	switch (status) {
