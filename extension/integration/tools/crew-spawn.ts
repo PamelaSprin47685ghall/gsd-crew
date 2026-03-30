@@ -29,9 +29,10 @@ export function registerCrewSpawnTool({
 			"Use crew_* tools to delegate parallelizable, independent tasks to specialized subagents. For interactive multi-turn workflows, use crew_respond/crew_done. Avoid spawning for trivial, single-turn tasks.",
 			"crew_spawn: Always call crew_list first to see which subagents are available before spawning.",
 			"crew_spawn: The spawned subagent runs in a separate context window with no access to the current conversation. Include all relevant context (file paths, requirements, prior findings) directly in the task parameter.",
-			"crew_spawn: Results are delivered asynchronously as steering messages. Do not block or poll for completion; continue working on other tasks.",
-			"crew_spawn: Interactive subagents (marked with 'interactive' in crew_list) stay alive after responding. Use crew_respond to continue the conversation and crew_done to close when finished.",
+			"crew_spawn: Results are delivered asynchronously as steering messages. Do not block or poll for completion. If there are other independent tasks to handle, continue with those; otherwise wait for the user's next instruction or the subagent result.",
+			"crew_spawn: NEVER perform the same work you delegated to a subagent. Once a task is spawned, trust the subagent to do it. Do not run the same searches, reads, or analysis yourself while waiting. You may only gather context BEFORE spawning to prepare the task description. After spawning, move on to other independent work or simply wait for the result.",
 			"crew_spawn: When multiple subagents are spawned, each result arrives as a separate steering message. NEVER predict or fabricate results for subagents that have not yet reported back. Wait for ALL crew-result messages.",
+			"crew_spawn: Interactive subagents (marked with 'interactive' in crew_list) stay alive after responding. Use crew_respond to continue the conversation and crew_done to close when finished.",
 		],
 
 		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
