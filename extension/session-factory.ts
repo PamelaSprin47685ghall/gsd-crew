@@ -27,7 +27,7 @@ function resolveModel(
 	if (found) return found;
 
 	console.warn(
-		`[pi-crew] Agent "${agentConfig.name}": model "${agentConfig.model}" not found in registry, using default`,
+		`[pi-crew] Subagent "${agentConfig.name}": model "${agentConfig.model}" not found in registry, using default`,
 	);
 	return model;
 }
@@ -42,7 +42,7 @@ function warnUnknownSkills(agentConfig: AgentConfig, resourceLoader: DefaultReso
 	if (unknownSkills.length === 0) return;
 
 	console.warn(
-		`[pi-crew] Agent "${agentConfig.name}": unknown skills ${unknownSkills.map((skillName) => `"${skillName}"`).join(", ")}, ignoring`,
+		`[pi-crew] Subagent "${agentConfig.name}": unknown skills ${unknownSkills.map((skillName) => `"${skillName}"`).join(", ")}, ignoring`,
 	);
 }
 

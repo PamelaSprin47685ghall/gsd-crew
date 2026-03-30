@@ -197,7 +197,7 @@ export class CrewManager {
 
 	/**
 	 * Delivers a payload to the owner session if active, otherwise queues it.
-	 * Result messages always go first. If more agents are still running and the
+	 * Result messages always go first. If more subagents are still running and the
 	 * owner is idle, queue the result without triggering, then queue the separate
 	 * remaining note with triggerTurn so the next turn sees both in order.
 	 */
@@ -223,7 +223,7 @@ export class CrewManager {
 
 	/**
 	 * Single owner for post-prompt and terminal state transitions.
-	 * Publishes the outcome, updates state, and disposes finished agents.
+	 * Publishes the outcome, updates state, and disposes finished subagents.
 	 */
 	private settleAgent(
 		state: SubagentState,
@@ -318,14 +318,14 @@ export class CrewManager {
 		callerSessionId: string,
 	): { error?: string } {
 		const state = this.activeAgents.get(id);
-		if (!state) return { error: `No agent with id "${id}"` };
+		if (!state) return { error: `No subagent with id "${id}"` };
 		if (state.ownerSessionId !== callerSessionId) {
-			return { error: `Agent "${id}" belongs to a different session` };
+			return { error: `Subagent "${id}" belongs to a different session` };
 		}
 		if (state.status !== "waiting") {
-			return { error: `Agent "${id}" is not waiting for a response (status: ${state.status})` };
+			return { error: `Subagent "${id}" is not waiting for a response (status: ${state.status})` };
 		}
-		if (!state.session) return { error: `Agent "${id}" has no active session` };
+		if (!state.session) return { error: `Subagent "${id}" has no active session` };
 
 		state.status = "running";
 		this.onWidgetUpdate?.();
@@ -335,12 +335,12 @@ export class CrewManager {
 
 	done(id: string, callerSessionId: string): { error?: string } {
 		const state = this.activeAgents.get(id);
-		if (!state) return { error: `No active agent with id "${id}"` };
+		if (!state) return { error: `No active subagent with id "${id}"` };
 		if (state.ownerSessionId !== callerSessionId) {
-			return { error: `Agent "${id}" belongs to a different session` };
+			return { error: `Subagent "${id}" belongs to a different session` };
 		}
 		if (state.status !== "waiting") {
-			return { error: `Agent "${id}" is not in waiting state` };
+			return { error: `Subagent "${id}" is not in waiting state` };
 		}
 
 		this.disposeAgent(state);

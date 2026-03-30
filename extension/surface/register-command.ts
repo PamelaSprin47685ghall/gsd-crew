@@ -3,7 +3,7 @@ import type { CrewManager } from "../runner.js";
 
 export function registerCrewCommand(pi: ExtensionAPI, crewManager: CrewManager): void {
 	pi.registerCommand("crew-abort", {
-		description: "Abort an active agent",
+		description: "Abort an active subagent",
 
 		getArgumentCompletions(argumentPrefix) {
 			const activeAgents = crewManager.getAbortableAgents();
@@ -22,16 +22,16 @@ export function registerCrewCommand(pi: ExtensionAPI, crewManager: CrewManager):
 			if (trimmed) {
 				const success = crewManager.abort(trimmed, pi);
 				if (!success) {
-					ctx.ui.notify(`No active agent with id "${trimmed}"`, "error");
+					ctx.ui.notify(`No active subagent with id "${trimmed}"`, "error");
 				} else {
-					ctx.ui.notify(`Agent ${trimmed} aborted`, "info");
+					ctx.ui.notify(`Subagent ${trimmed} aborted`, "info");
 				}
 				return;
 			}
 
 			const activeAgents = crewManager.getAbortableAgents();
 			if (activeAgents.length === 0) {
-				ctx.ui.notify("No active agents", "info");
+				ctx.ui.notify("No active subagents", "info");
 				return;
 			}
 
@@ -40,7 +40,7 @@ export function registerCrewCommand(pi: ExtensionAPI, crewManager: CrewManager):
 				label: `${agent.id} (${agent.agentName})`,
 			}));
 			const selected = await ctx.ui.select(
-				"Select agent to abort",
+				"Select subagent to abort",
 				options.map((option) => option.label),
 			);
 			if (!selected) return;
@@ -50,9 +50,9 @@ export function registerCrewCommand(pi: ExtensionAPI, crewManager: CrewManager):
 
 			const success = crewManager.abort(selectedOption.id, pi);
 			if (success) {
-				ctx.ui.notify(`Agent ${selectedOption.id} aborted`, "info");
+				ctx.ui.notify(`Subagent ${selectedOption.id} aborted`, "info");
 			} else {
-				ctx.ui.notify(`Agent ${selectedOption.id} already finished`, "error");
+				ctx.ui.notify(`Subagent ${selectedOption.id} already finished`, "error");
 			}
 		},
 	});

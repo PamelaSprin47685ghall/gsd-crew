@@ -27,7 +27,7 @@ function getStatusColor(status: CrewResultMessageDetails["status"]): "success" |
 export function registerCrewMessageRenderers(pi: ExtensionAPI): void {
 	pi.registerMessageRenderer("crew-result", (message, { expanded }, theme) => {
 		const details = message.details as CrewResultMessageDetails | undefined;
-		const title = details ? getCrewResultTitle(details) : "Agent update";
+		const title = details ? getCrewResultTitle(details) : "Subagent update";
 		const icon = details
 			? theme.fg(getStatusColor(details.status), STATUS_ICON[details.status])
 			: theme.fg("muted", "ℹ");

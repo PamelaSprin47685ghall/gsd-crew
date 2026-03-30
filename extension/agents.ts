@@ -86,7 +86,7 @@ function parseListField(
 
 	reportDiscoveryWarning(
 		filePath,
-		`Agent "${agentName}": invalid ${fieldName} field, expected a comma-separated string or YAML array`,
+		`Subagent "${agentName}": invalid ${fieldName} field, expected a comma-separated string or YAML array`,
 		onWarning,
 	);
 	return [];
@@ -135,7 +135,7 @@ function loadAgentFromFile(
 		body = parsed.body;
 	} catch (error) {
 		const reason = error instanceof Error ? error.message : String(error);
-		reportDiscoveryWarning(filePath, `Ignored invalid agent definition. Frontmatter could not be parsed: ${reason}`, onWarning);
+		reportDiscoveryWarning(filePath, `Ignored invalid subagent definition. Frontmatter could not be parsed: ${reason}`, onWarning);
 		return null;
 	}
 
@@ -145,14 +145,14 @@ function loadAgentFromFile(
 	if (!name || !description) {
 		reportDiscoveryWarning(
 			filePath,
-			"Ignored invalid agent definition. Required frontmatter fields \"name\" and \"description\" must be non-empty strings.",
+			"Ignored invalid subagent definition. Required frontmatter fields \"name\" and \"description\" must be non-empty strings.",
 			onWarning,
 		);
 		return null;
 	}
 
 	if (/\s/.test(name)) {
-		reportDiscoveryWarning(filePath, `Ignored agent definition "${name}". Agent names cannot contain whitespace. Use "-" instead.`, onWarning);
+		reportDiscoveryWarning(filePath, `Ignored subagent definition "${name}". Subagent names cannot contain whitespace. Use "-" instead.`, onWarning);
 		return null;
 	}
 
@@ -160,14 +160,14 @@ function loadAgentFromFile(
 	const parsedModel = modelRaw ? parseModel(modelRaw) : undefined;
 
 	if (modelRaw && !parsedModel) {
-		reportDiscoveryWarning(filePath, `Agent "${name}": invalid model format "${modelRaw}" (expected "provider/model-id"), ignoring model field`, onWarning);
+		reportDiscoveryWarning(filePath, `Subagent "${name}": invalid model format "${modelRaw}" (expected "provider/model-id"), ignoring model field`, onWarning);
 	}
 
 	const thinkingRaw = typeof frontmatter.thinking === "string" ? frontmatter.thinking : undefined;
 	const thinking = validateThinkingLevel(thinkingRaw);
 
 	if (thinkingRaw && !thinking) {
-		reportDiscoveryWarning(filePath, `Agent "${name}": invalid thinking level "${thinkingRaw}", ignoring`, onWarning);
+		reportDiscoveryWarning(filePath, `Subagent "${name}": invalid thinking level "${thinkingRaw}", ignoring`, onWarning);
 	}
 
 	const rawTools = "tools" in frontmatter
@@ -177,7 +177,7 @@ function loadAgentFromFile(
 	if (invalidTools.length > 0) {
 		reportDiscoveryWarning(
 			filePath,
-			`Agent "${name}": unknown tools ${invalidTools.map((toolName) => `"${toolName}"`).join(", ")}, ignoring`,
+			`Subagent "${name}": unknown tools ${invalidTools.map((toolName) => `"${toolName}"`).join(", ")}, ignoring`,
 			onWarning,
 		);
 	}
@@ -233,7 +233,7 @@ export function discoverAgents(): AgentDiscoveryResult {
 
 		const existing = seenNames.get(agent.name);
 		if (existing) {
-			reportDiscoveryWarning(filePath, `Duplicate agent name "${agent.name}" (already defined in ${existing}), skipping`, (warning) => warnings.push(warning));
+			reportDiscoveryWarning(filePath, `Duplicate subagent name "${agent.name}" (already defined in ${existing}), skipping`, (warning) => warnings.push(warning));
 			continue;
 		}
 

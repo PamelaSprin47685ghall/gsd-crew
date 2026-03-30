@@ -38,7 +38,7 @@ export function getCrewResultTitle(details: {
 	agentName: string;
 	status: SubagentStatus;
 }): string {
-	return `Agent '${details.agentName}' (${details.agentId}) ${STATUS_LABEL[details.status]}`;
+	return `Subagent '${details.agentName}' (${details.agentId}) ${STATUS_LABEL[details.status]}`;
 }
 
 function getSteeringBody(payload: SteeringPayload): string | undefined {
@@ -92,7 +92,7 @@ export function sendRemainingNote(
 	pi.sendMessage(
 		{
 			customType: "crew-remaining",
-			content: `⏳ ${remainingCount} agent(s) still running`,
+			content: `⏳ ${remainingCount} subagent(s) still running`,
 			display: true,
 		},
 		opts.isIdle
