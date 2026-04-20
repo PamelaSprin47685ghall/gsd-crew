@@ -13,9 +13,13 @@ export function registerCrewListTool({
 		name: "crew_list",
 		label: "List Crew",
 		description:
-			"List available subagent definitions and currently running subagents with their status.",
+			"List available subagent definitions and currently running subagents with their status. Use only to discover which subagents exist or to get a one-time status snapshot. Do NOT call this repeatedly to check if a subagent has finished — results are delivered automatically as steering messages.",
 		parameters: Type.Object({}),
 		promptSnippet: "List subagent definitions and active subagents",
+		promptGuidelines: [
+			"Use crew_list first to see available subagents before spawning.",
+			"crew_list: Call this only to discover available subagents before spawning, or when the user explicitly asks for a status report. Do not call it to check if a subagent finished — results arrive as steering messages automatically.",
+		],
 
 		async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
 			const { agents, warnings } = discoverAgents(ctx.cwd);
@@ -24,6 +28,11 @@ export function registerCrewListTool({
 			const running = crew.getActiveSummariesForOwner(callerSessionId);
 
 			const lines: string[] = [];
+
+			if (running.length > 0) {
+				lines.push("⚠ Active subagents detected. Do not poll crew_list for completion — results arrive as steering messages. Continue with unrelated work or end your turn and wait for the steering messages.");
+				lines.push("");
+			}
 
 			lines.push("## Available Subagents");
 			if (agents.length === 0) {

@@ -9,10 +9,10 @@ import {
 import type { CrewToolDeps } from "./tool-deps.js";
 
 export function registerCrewSpawnTool({
-	pi,
-	crew,
-	extensionDir,
-	notifyDiscoveryWarnings,
+  pi,
+  crew,
+  extensionDir,
+  notifyDiscoveryWarnings,
 }: CrewToolDeps): void {
   pi.registerTool({
     name: "crew_spawn",
@@ -26,13 +26,12 @@ export function registerCrewSpawnTool({
     promptSnippet:
       "Spawn a non-blocking subagent. Use crew_list first to see available subagents.",
     promptGuidelines: [
-      "Use crew_list first to see available subagents before spawning.",
       "crew_spawn: The subagent runs in isolation with no access to your session. Include file paths, requirements, and known locations directly in the task parameter.",
       "crew_spawn: DELEGATE means OWNERSHIP TRANSFER. Once you spawn a subagent for a task, that task is exclusively theirs. If you also work on it, you waste the subagent's effort and create conflicting results. After spawning, work on an UNRELATED task or end your turn.",
       "crew_spawn: To avoid duplication, gather only enough context to write a useful task (key files, entry points). Do not pre-investigate the full problem.",
       "crew_spawn: Results arrive asynchronously as steering messages. Do not predict or fabricate results. Wait for all crew-result messages before acting on them.",
-      "crew_spawn: Never use crew_list as a completion polling loop. Wait for the steering message.",
-      "crew_spawn: Interactive subagents stay alive after responding. Use crew_respond to continue and crew_done to close when finished.",
+      "crew_spawn: Never use crew_list as a completion polling loop. Results arrive as steering messages. Continue with unrelated work or end your turn and wait for the steering messages.",
+      "crew_spawn: Interactive subagents stay alive after responding. Use crew_respond to continue or crew_done to close when finished.",
     ],
 
     async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
