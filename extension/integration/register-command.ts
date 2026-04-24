@@ -1,8 +1,8 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@gsd/pi-coding-agent";
 import type { CrewRuntime } from "../runtime/crew-runtime.js";
 
 export function registerCrewCommand(pi: ExtensionAPI, crew: CrewRuntime): void {
-	pi.registerCommand("pi-crew-abort", {
+	pi.registerCommand("crew-abort", {
 		description: "Abort an active subagent",
 
 		getArgumentCompletions(argumentPrefix) {

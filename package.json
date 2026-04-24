@@ -1,10 +1,10 @@
 {
-  "name": "@melihmucuk/pi-crew",
+  "name": "gsd-crew",
   "version": "1.0.12",
   "type": "module",
   "description": "Non-blocking subagent orchestration for pi coding agent",
   "files": [
-    "dist/",
+    "extension/",
     "agents/",
     "prompts/",
     "docs/architecture.md"
@@ -21,12 +21,15 @@
   ],
   "pi": {
     "extensions": [
-      "./dist/index.js"
+      "./extension/index.ts"
     ],
     "prompts": [
       "./prompts"
     ],
     "video": "https://monkeys-team.ams3.cdn.digitaloceanspaces.com/pi-crew-demo.mp4"
+  },
+  "gsd": {
+    "extension": true
   },
   "scripts": {
     "clean": "rm -rf dist",
@@ -35,17 +38,17 @@
     "prepare": "npm run build"
   },
   "peerDependencies": {
-    "@mariozechner/pi-agent-core": "*",
-    "@mariozechner/pi-ai": "*",
-    "@mariozechner/pi-coding-agent": "*",
-    "@mariozechner/pi-tui": "*",
+    "@gsd/pi-agent-core": "*",
+    "@gsd/pi-ai": "*",
+    "@gsd/pi-coding-agent": "*",
+    "@gsd/pi-tui": "*",
     "@sinclair/typebox": "*"
   },
   "devDependencies": {
-    "@mariozechner/pi-agent-core": "^0.68.0",
-    "@mariozechner/pi-ai": "^0.68.0",
-    "@mariozechner/pi-coding-agent": "^0.68.0",
-    "@mariozechner/pi-tui": "^0.68.0",
+    "@gsd/pi-agent-core": "^0.68.0",
+    "@gsd/pi-ai": "^0.68.0",
+    "@gsd/pi-coding-agent": "^0.68.0",
+    "@gsd/pi-tui": "^0.68.0",
     "@sinclair/typebox": "^0.34.49",
     "@types/node": "^22.19.17",
     "typescript": "^5.9.3"

@@ -14,7 +14,7 @@
 
 ### Architecture
 
-- Subagent sessions must filter out the pi-crew extension via `extensionsOverride`. Removing the filter lets a subagent call `crew_spawn` again, creating an infinite loop.
+- Subagent sessions must filter out the gsd-crew extension via `extensionsOverride`. Removing the filter lets a subagent call `crew_spawn` again, creating an infinite loop.
 - Link parent sessions with `SessionManager.newSession({ parentSession })`. Do not use `AgentSession.newSession()` — it disconnects/aborts/resets the subagent.
 - Subagent session files are intentionally never cleaned up. They enable post-hoc inspection via `/resume`. Do not add automatic cleanup.
 
@@ -34,7 +34,7 @@
 - Owner identity must use `sessionManager.getSessionId()`, not `getSessionFile()`. `getSessionFile()` returns `undefined` for in-memory sessions, causing all unsaved sessions to share the same owner identity.
 - Each subagent is owned by the session that spawned it. `crew_list`, `crew_abort`, `crew_respond`, `crew_done`, `session_shutdown`, and the status widget must restrict access to the owner session. Removing or bypassing ownership checks causes cross-session subagent interference.
 - `crew_abort` must only abort subagents owned by the current session. It supports single-id, multi-id, and abort-all modes.
-- `/pi-crew-abort` is intentionally unrestricted — it serves as an emergency escape hatch across all sessions. Do not add ownership checks to it.
+- `/gsd-crew-abort` is intentionally unrestricted — it serves as an emergency escape hatch across all sessions. Do not add ownership checks to it.
 
 ### Session Lifecycle
 
@@ -45,7 +45,7 @@
 
 ### Subagent Definitions
 
-- Subagent definitions are discovered from three locations in priority order: project (`<cwd>/.pi/agents/`), user global (`~/.pi/agent/agents/`), bundled (`agents/` in the package). When the same name exists in multiple sources, the higher-priority source wins silently. Duplicate names within the same directory produce a warning.
+- Subagent definitions are discovered from three locations in priority order: project (`<cwd>/.gsd/agents/`), user global (`~/.gsd/agent/agents/`), bundled (`agents/` in the package). When the same name exists in multiple sources, the higher-priority source wins silently. Duplicate names within the same directory produce a warning.
 - The `model` field must use `provider/model-id` format (e.g., `anthropic/claude-haiku-4-5`). Values without `/` are ignored and the spawning session's model is used instead.
 - When `tools`/`skills` are omitted in frontmatter, the subagent gets access to all built-in tools/skills. An explicit empty list (`tools: []` or `tools:`) means no access. Do not conflate absent fields with empty fields.
 - `interactive: true` subagents keep their session alive after each response. The caller must close them with `crew_done`; otherwise the session stays in memory.

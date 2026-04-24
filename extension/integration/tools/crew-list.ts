@@ -1,4 +1,4 @@
-import { Text } from "@mariozechner/pi-tui";
+import { Text } from "@gsd/pi-tui";
 import { Type } from "@sinclair/typebox";
 import { discoverAgents } from "../../agent-discovery.js";
 import { STATUS_ICON } from "../../subagent-messages.js";
@@ -37,7 +37,7 @@ export function registerCrewListTool({
 			lines.push("## Available Subagents");
 			if (agents.length === 0) {
 				lines.push(
-					"No valid subagent definitions found. Add `.md` files to `<cwd>/.pi/agents/` or `~/.pi/agent/agents/`.",
+					"No valid subagent definitions found. Add `.md` files to `<cwd>/.gsd/agents/` or `~/.gsd/agent/agents/`.",
 				);
 			} else {
 				for (const agent of agents) {

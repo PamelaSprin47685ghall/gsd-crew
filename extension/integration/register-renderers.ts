@@ -1,8 +1,8 @@
 import {
 	type ExtensionAPI,
 	getMarkdownTheme,
-} from "@mariozechner/pi-coding-agent";
-import { Box, Markdown, Text } from "@mariozechner/pi-tui";
+} from "@gsd/pi-coding-agent";
+import { Box, Markdown, Text } from "@gsd/pi-tui";
 import {
 	type CrewResultMessageDetails,
 	STATUS_ICON,

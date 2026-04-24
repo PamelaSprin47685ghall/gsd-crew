@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@gsd/pi-coding-agent";
 
 export type SubagentStatus = "running" | "waiting" | "done" | "error" | "aborted";
 

@@ -1,12 +1,12 @@
-# pi-crew Architecture
+# gsd-crew Architecture
 
-This document explains the technical architecture of `@melihmucuk/pi-crew`, focusing on what makes this extension unique.
+This document explains the technical architecture of `@melihmucuk/gsd-crew`, focusing on what makes this extension unique.
 
 For pi fundamentals, see pi docs: `extensions.md`, `sdk.md`, `session.md`. Project-level guardrails are in `AGENTS.md`.
 
-## 1. What pi-crew adds
+## 1. What gsd-crew adds
 
-`pi-crew` is a non-blocking subagent orchestration extension. It lets one pi session delegate work to isolated subagent sessions without blocking the caller. Results are delivered back as `crew-result` custom messages.
+`gsd-crew` is a non-blocking subagent orchestration extension. It lets one pi session delegate work to isolated subagent sessions without blocking the caller. Results are delivered back as `crew-result` custom messages.
 
 Primary components:
 
@@ -56,12 +56,12 @@ When `crew_spawn` executes:
 1. Resolve subagent definition from discovery sources
 2. Resolve model (fallback to caller session model if invalid)
 3. Resolve tools, skills
-4. Create `DefaultResourceLoader` with `extensionsOverride` that excludes `pi-crew`
+4. Create `DefaultResourceLoader` with `extensionsOverride` that excludes `gsd-crew`
 5. Call `sessionManager.newSession({ parentSession })` for parent-child linkage
 6. Create `AgentSession` with resolved configuration
 7. Send task prompt asynchronously
 
-**Extension filtering:** Subagent sessions must not load `pi-crew` again. Prevents recursive orchestration loops.
+**Extension filtering:** Subagent sessions must not load `gsd-crew` again. Prevents recursive orchestration loops.
 
 ## 4. Delivery model
 
@@ -114,15 +114,15 @@ After prompt cycle completion, inspect assistant stop reason:
 Invariants:
 
 1. `crew_list`, `crew_abort`, `crew_respond`, `crew_done`, status widget: session-scoped. Only owner sees/controls.
-2. `/pi-crew-abort`: cross-session emergency escape hatch.
+2. `/gsd-crew-abort`: cross-session emergency escape hatch.
 3. `session_shutdown` always deactivates delivery binding. On replacement paths (`reload`, `new`, `resume`, `fork`), subagents continue running. On `quit`, the extension aborts all running subagents. `SIGINT` also aborts via a process hook, and `beforeExit` remains a fallback.
 
 ## 7. Subagent definition model
 
 Discovery priority:
 
-1. Project: `<cwd>/.pi/agents/*.md`
-2. User global: `~/.pi/agent/agents/*.md`
+1. Project: `<cwd>/.gsd/agents/*.md`
+2. User global: `~/.gsd/agent/agents/*.md`
 3. Bundled: `agents/` in package
 
 Higher priority wins. Same-name duplicates in same directory produce warning.
@@ -134,13 +134,13 @@ Tools/skills semantics:
 - **Omitted:** Use full supported allowlist
 - **Empty list (`tools: []`):** Grant none
 
-JSON overrides: `~/.pi/agent/pi-crew.json` (global), `<cwd>/.pi/pi-crew.json` (project). Project wins.
+JSON overrides: `~/.gsd/agent/gsd-crew.json` (global), `<cwd>/.gsd/gsd-crew.json` (project). Project wins.
 
 ## 8. Behavioral invariants
 
 1. Spawned subagent must not block caller session.
 2. Results route to owning session (by ID), not currently active session.
-3. Subagent sessions must not load `pi-crew`.
+3. Subagent sessions must not load `gsd-crew`.
 4. `crew_respond` returns immediately; result delivered asynchronously.
 5. `crew_done` cleans up only; no duplicate result message.
 6. Queued results flush when owner session becomes active.

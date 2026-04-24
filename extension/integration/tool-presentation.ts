@@ -1,5 +1,5 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { Box, Text } from "@mariozechner/pi-tui";
+import type { ExtensionAPI } from "@gsd/pi-coding-agent";
+import { Box, Text } from "@gsd/pi-tui";
 
 export type ToolTheme = Parameters<Exclude<Parameters<ExtensionAPI["registerTool"]>[0]["renderCall"], undefined>>[1];
 export type ToolResult = { content: { type: string; text?: string }[]; details: unknown };

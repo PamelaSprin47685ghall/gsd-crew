@@ -1,6 +1,6 @@
-import type { AgentMessage } from "@mariozechner/pi-agent-core";
-import type { Api, AssistantMessage, Model } from "@mariozechner/pi-ai";
-import type { AgentSession, ModelRegistry } from "@mariozechner/pi-coding-agent";
+import type { AgentMessage } from "@gsd/pi-agent-core";
+import type { Api, AssistantMessage, Model } from "@gsd/pi-ai";
+import type { AgentSession, ModelRegistry } from "@gsd/pi-coding-agent";
 import type { AgentConfig } from "../agent-discovery.js";
 import type { BootstrapContext } from "../bootstrap-session.js";
 import { bootstrapSession } from "../bootstrap-session.js";

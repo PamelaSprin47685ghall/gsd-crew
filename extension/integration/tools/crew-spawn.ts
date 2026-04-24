@@ -1,4 +1,4 @@
-import { getAgentDir } from "@mariozechner/pi-coding-agent";
+import { getAgentDir } from "@gsd/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
 import { discoverAgents } from "../../agent-discovery.js";
 import {

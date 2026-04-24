@@ -1,8 +1,8 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { ThinkingLevel } from "@mariozechner/pi-agent-core";
-import { getAgentDir, parseFrontmatter } from "@mariozechner/pi-coding-agent";
+import type { ThinkingLevel } from "@gsd/pi-agent-core";
+import { getAgentDir, parseFrontmatter } from "@gsd/pi-coding-agent";
 import { type SupportedToolName, isSupportedToolName } from "./tool-registry.js";
 
 interface ParsedModel {
@@ -569,7 +569,7 @@ function parseConfigFile(content: string, filePath: string): ConfigParseResult {
 			warnings: [
 				createDiscoveryWarning(
 					filePath,
-					`Ignored pi-crew config. JSON could not be parsed: ${reason}`,
+					`Ignored gsd-crew config. JSON could not be parsed: ${reason}`,
 				),
 			],
 		};
@@ -582,7 +582,7 @@ function parseConfigFile(content: string, filePath: string): ConfigParseResult {
 			warnings: [
 				createDiscoveryWarning(
 					filePath,
-					"Ignored pi-crew config. Root value must be a JSON object.",
+					"Ignored gsd-crew config. Root value must be a JSON object.",
 				),
 			],
 		};
@@ -600,7 +600,7 @@ function parseConfigFile(content: string, filePath: string): ConfigParseResult {
 			warnings: [
 				createDiscoveryWarning(
 					filePath,
-					'Ignored pi-crew config. Field "agents" must be a JSON object.',
+					'Ignored gsd-crew config. Field "agents" must be a JSON object.',
 				),
 			],
 		};
@@ -615,7 +615,7 @@ function parseConfigFile(content: string, filePath: string): ConfigParseResult {
 			warnings.push(
 				createDiscoveryWarning(
 					filePath,
-					"Ignored pi-crew config entry with empty subagent name.",
+					"Ignored gsd-crew config entry with empty subagent name.",
 				),
 			);
 			continue;
@@ -648,7 +648,7 @@ function loadConfigOverridesFromFile(filePath: string): ConfigParseResult {
 			warnings: [
 				createDiscoveryWarning(
 					filePath,
-					`Ignored pi-crew config. File could not be read: ${reason}`,
+					`Ignored gsd-crew config. File could not be read: ${reason}`,
 				),
 			],
 		};
@@ -682,8 +682,8 @@ function mergeOverrideSources(
 }
 
 function loadConfigOverrides(cwd: string): ConfigParseResult {
-	const globalPath = path.join(getAgentDir(), "pi-crew.json");
-	const projectPath = path.join(cwd, ".pi", "pi-crew.json");
+	const globalPath = path.join(getAgentDir(), "gsd-crew.json");
+	const projectPath = path.join(cwd, ".gsd", "gsd-crew.json");
 
 	const globalConfig = loadConfigOverridesFromFile(globalPath);
 	const projectConfig = loadConfigOverridesFromFile(projectPath);
@@ -760,7 +760,7 @@ export function discoverAgents(cwd: string = process.cwd()): AgentDiscoveryResul
 	const seenNames = new Map<string, string>();
 
 	// Priority 1: project-level agents
-	loadAgentsFromDir(path.join(cwd, ".pi", "agents"), seenNames, agents, warnings);
+	loadAgentsFromDir(path.join(cwd, ".gsd", "agents"), seenNames, agents, warnings);
 
 	// Priority 2: user global agents
 	loadAgentsFromDir(path.join(getAgentDir(), "agents"), seenNames, agents, warnings);
@@ -780,7 +780,7 @@ export function discoverAgents(cwd: string = process.cwd()): AgentDiscoveryResul
 		if (!seenNames.has(agentName)) {
 			warnings.push(
 				createDiscoveryWarning(
-					configOverrides.overrideSources[agentName] ?? path.join(cwd, ".pi", "pi-crew.json"),
+					configOverrides.overrideSources[agentName] ?? path.join(cwd, ".gsd", "gsd-crew.json"),
 					`Subagent override "${agentName}" does not match any discovered subagent, ignoring`,
 				),
 			);

@@ -1,4 +1,4 @@
-# pi-crew
+# gsd-crew
 
 Non-blocking subagent orchestration for [pi](https://pi.dev). Spawn isolated subagents that work in parallel while your current session stays interactive. Results are delivered back to the session that spawned them as steering messages when done.
 
@@ -28,7 +28,7 @@ For an implementation-grounded description of runtime behavior, ownership rules,
 
 ## How It Works
 
-pi-crew adds five tools, one command, and one bundled prompt template to your pi session.
+gsd-crew adds five tools, one command, and one bundled prompt template to your pi session.
 
 ### `crew_list`
 
@@ -76,19 +76,19 @@ Closes an interactive subagent session owned by the current session when you no 
 "close planner-a1b2, the plan looks good"
 ```
 
-### `/pi-crew-abort`
+### `/gsd-crew-abort`
 
 Aborts a running subagent. Supports tab completion for subagent IDs.
 Unlike the `crew_abort` tool, this command is intentionally unrestricted and works as an emergency escape hatch across sessions.
 
-### `/pi-crew-plan`
+### `/gsd-crew-plan`
 
 Expands a bundled prompt template that orchestrates discovery and planning for implementation tasks.
 Use it to spawn scout subagents to investigate the codebase, then delegate to a planner subagent to produce a step-by-step implementation plan.
 
 Note: This prompt requires the `scout` and `planner` subagent definitions. These are included as bundled subagents and work out of the box.
 
-### `/pi-crew-review`
+### `/gsd-crew-review`
 
 Expands a bundled prompt template that orchestrates parallel code and quality reviews.
 Use it to review recent commits, staged changes, unstaged changes, and untracked files with `code-reviewer` and `quality-reviewer`, then merge both results into one report.
@@ -97,7 +97,7 @@ Note: This prompt requires the `code-reviewer` and `quality-reviewer` subagent d
 
 ## Bundled Subagents
 
-pi-crew ships with six subagent definitions that cover common workflows:
+gsd-crew ships with six subagent definitions that cover common workflows:
 
 | Subagent             | Purpose                                                                                                                  | Tools                      | Model                       |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------- | --------------------------- |
@@ -114,15 +114,15 @@ Read-only bundled subagents still keep `bash` for inspection workflows like `git
 
 Subagent definitions are discovered from three locations, in priority order:
 
-1. **Project**: `<cwd>/.pi/agents/*.md`
-2. **User global**: `~/.pi/agent/agents/*.md`
+1. **Project**: `<cwd>/.gsd/agents/*.md`
+2. **User global**: `~/.gsd/agent/agents/*.md`
 3. **Bundled**: shipped with this package
 
 When multiple sources define a subagent with the same `name`, the higher-priority source wins. This lets you override any bundled subagent by placing a file with the same name in your project or user directory.
 
 ## Custom Subagents
 
-Create `.md` files in `<cwd>/.pi/agents/` (project-level) or `~/.pi/agent/agents/` (global) with YAML frontmatter:
+Create `.md` files in `<cwd>/.gsd/agents/` (project-level) or `~/.gsd/agent/agents/` (global) with YAML frontmatter:
 
 ```markdown
 ---
@@ -158,8 +158,8 @@ You can override selected frontmatter fields without editing the `.md` definitio
 
 Config locations:
 
-- Global: `~/.pi/agent/pi-crew.json`
-- Project: `<cwd>/.pi/pi-crew.json`
+- Global: `~/.gsd/agent/gsd-crew.json`
+- Project: `<cwd>/.gsd/gsd-crew.json`
 
 Project config overrides global config. Only these fields are overridable:
 
@@ -195,7 +195,7 @@ Override values replace the matching frontmatter fields for the named subagent a
 
 When the current session owns active subagents, a live status widget appears in the TUI for that session, showing each subagent's ID, model, turn count, and context token usage.
 
-On session replacement paths such as `/new`, `/resume`, `/fork`, and `/reload`, subagents keep running and reconnect to the owner session when it becomes active again. On real quit, pi-crew aborts running subagents during shutdown.
+On session replacement paths such as `/new`, `/resume`, `/fork`, and `/reload`, subagents keep running and reconnect to the owner session when it becomes active again. On real quit, gsd-crew aborts running subagents during shutdown.
 
 ```
 ⠹ scout-a1b2 (claude-haiku-4-5) · turn 3 · 12.5k ctx

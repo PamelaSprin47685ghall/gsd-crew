@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@gsd/pi-coding-agent";
 import type { CrewRuntime } from "./runtime/crew-runtime.js";
 import { registerCrewCommand } from "./integration/register-command.js";
 import { registerCrewMessageRenderers } from "./integration/register-renderers.js";
