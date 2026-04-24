@@ -119,7 +119,7 @@ export async function bootstrapSession(
     agentDir: ctx.agentDir,
     model,
     thinkingLevel: agentConfig.thinking,
-    tools,
+    tools: tools as any,
     resourceLoader,
     sessionManager,
     settingsManager,

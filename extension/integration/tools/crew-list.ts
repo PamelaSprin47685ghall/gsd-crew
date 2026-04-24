@@ -76,11 +76,11 @@ export function registerCrewListTool({
 			return { content: [{ type: "text", text }], details: {} };
 		},
 
-		renderCall(_args, theme, _context) {
+		renderCall(_args, theme) {
 			return new Text(theme.fg("toolTitle", theme.bold("crew_list")), 0, 0);
 		},
 
-		renderResult(result, _options, _theme, _context) {
+		renderResult(result, _options, _theme) {
 			const text = result.content[0];
 			return new Text(text?.type === "text" ? text.text : "(no output)", 0, 0);
 		},

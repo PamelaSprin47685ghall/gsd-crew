@@ -72,7 +72,7 @@ export function registerCrewSpawnTool({
       );
     },
 
-    renderCall(args, theme, _context) {
+    renderCall(args, theme) {
       return renderCrewCall(
         theme,
         "crew_spawn",
@@ -81,7 +81,7 @@ export function registerCrewSpawnTool({
       );
     },
 
-    renderResult(result, _options, theme, _context) {
+    renderResult(result, _options, theme) {
       return renderCrewResult(result, theme);
     },
   });

@@ -56,7 +56,7 @@ export default function (pi: ExtensionAPI) {
 		const sessionId = ctx.sessionManager.getSessionId();
 		crewRuntime.deactivateSession(sessionId);
 
-		if (event.reason === "quit") {
+		if ((event as any).reason === "quit") {
 			crewRuntime.abortAll();
 		}
 	});

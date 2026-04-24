@@ -41,7 +41,7 @@ export function registerCrewRespondTool({ pi, crew }: CrewToolDeps): void {
 			);
 		},
 
-		renderCall(args, theme, _context) {
+		renderCall(args, theme) {
 			return renderCrewCall(
 				theme,
 				"crew_respond",
@@ -50,7 +50,7 @@ export function registerCrewRespondTool({ pi, crew }: CrewToolDeps): void {
 			);
 		},
 
-		renderResult(result, _options, theme, _context) {
+		renderResult(result, _options, theme) {
 			return renderCrewResult(result, theme);
 		},
 	});

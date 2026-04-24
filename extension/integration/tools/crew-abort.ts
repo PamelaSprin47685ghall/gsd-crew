@@ -96,7 +96,7 @@ export function registerCrewAbortTool({ pi, crew }: CrewToolDeps): void {
 			});
 		},
 
-		renderCall(args, theme, _context) {
+		renderCall(args, theme) {
 			if (args.all) {
 				return renderCrewCall(theme, "crew_abort", "all");
 			}
@@ -109,7 +109,7 @@ export function registerCrewAbortTool({ pi, crew }: CrewToolDeps): void {
 			return renderCrewCall(theme, "crew_abort", `${count} ids`);
 		},
 
-		renderResult(result, _options, theme, _context) {
+		renderResult(result, _options, theme) {
 			return renderCrewResult(result, theme);
 		},
 	});

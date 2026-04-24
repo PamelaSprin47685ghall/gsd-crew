@@ -28,11 +28,11 @@ export function registerCrewDoneTool({ pi, crew }: CrewToolDeps): void {
 			});
 		},
 
-		renderCall(args, theme, _context) {
+		renderCall(args, theme) {
 			return renderCrewCall(theme, "crew_done", args.subagent_id || "...");
 		},
 
-		renderResult(result, _options, theme, _context) {
+		renderResult(result, _options, theme) {
 			return renderCrewResult(result, theme);
 		},
 	});

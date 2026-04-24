@@ -48,7 +48,7 @@ class OverflowRecoveryTracker {
 	private overflowAutoRetryEnd: DeferredPhase | undefined;
 	private timers: ReturnType<typeof setTimeout>[] = [];
 
-	handleEvent(event: AgentSessionEvent): void {
+	handleEvent(event: any): void {
 		switch (event.type) {
 			case "agent_end":
 				this.onAgentEnd();
