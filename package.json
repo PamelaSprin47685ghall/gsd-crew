@@ -38,17 +38,9 @@
     "prepare": "npm run build"
   },
   "peerDependencies": {
-    "@gsd/pi-agent-core": "*",
-    "@gsd/pi-ai": "*",
-    "@gsd/pi-coding-agent": "*",
-    "@gsd/pi-tui": "*",
     "@sinclair/typebox": "*"
   },
   "devDependencies": {
-    "@gsd/pi-agent-core": "^0.68.0",
-    "@gsd/pi-ai": "^0.68.0",
-    "@gsd/pi-coding-agent": "^0.68.0",
-    "@gsd/pi-tui": "^0.68.0",
     "@sinclair/typebox": "^0.34.49",
     "@types/node": "^22.19.17",
     "typescript": "^5.9.3"
